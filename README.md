@@ -49,14 +49,14 @@ tasklist schema ->
     it returns the new task created
     
     tasks looks like this:
-        {  
-            taskName: list 1
-            description: complete module
-            dueDate: 2003-02-14T00:00:00.000Z
-            period: Nov 2002
-            periodType: monthly
-            taskListId: 62cb005b89036302b03cf081
-        }
+>       {  
+>           taskName: list 1
+>           description: complete module
+>           dueDate: 2003-02-14T00:00:00.000Z
+>           period: Nov 2002
+>           periodType: monthly
+>           taskListId: 62cb005b89036302b03cf081
+>       }
     
  
 3) http://localhost:5000/api/tasklist/<tasklistid>
@@ -66,12 +66,12 @@ tasklist schema ->
     have to provide tasklist to be fetched after /tasklist
     
     return an object like this where each task due date is in indian format as asked.
-         {
-            "totalTasks": <total number of tasks in list>,
-            "taskListName": <name of list>,
-            "description": <description>,
-            "tasks": <an array of tasks>
-        }
+>         {
+>            "totalTasks": <total number of tasks in list>,
+>            "taskListName": <name of list>,
+>            "description": <description>,
+>            "tasks": <an array of tasks>
+>        }
 
     search query:
             key - search

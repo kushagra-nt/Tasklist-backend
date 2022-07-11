@@ -21,11 +21,9 @@ export default function validate(dueDate, period, periodType, res) {
       res.status(403).json({ message: "due date must be after end of period." });
       return false;
     }
-  }
-
-  if (periodType === "yearly") {
+  } else if (periodType === "yearly") {
     // period type validation, must be in YYYY
-    if (/^[0-9]{4}/.test(period) && period.length === 4) {
+    if (!(/^[0-9]{4}/.test(period) && period.length === 4)) {
       res.status(403).json({ message: "Invalid period format" });
       return false;
     }
@@ -35,9 +33,7 @@ export default function validate(dueDate, period, periodType, res) {
       res.state(403).json({ message: "due date must be after end of period." });
       return false;
     }
-  }
-
-  if (periodType === "quaterly") {
+  } else if (periodType === "quaterly") {
     // checking period must be in q-yyyy , where q is quarter and q must be in 1-4
     if (!(/^[1-4]{1}-[0-9]{4}/.test(period) && period.length === 6)) {
       res.status(403).json({ message: "invalid period format" });
@@ -53,7 +49,7 @@ export default function validate(dueDate, period, periodType, res) {
     }
   } else {
     // if period type is none of above.
-    res.status(403).json({ message: "invalid period type" });
+    res.status(403).json({ message: "invalid period type", periodType: periodType });
     return false;
   }
   return true;

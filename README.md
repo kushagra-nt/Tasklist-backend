@@ -1,15 +1,11 @@
 # TaxAdda-assignment
 
 
-tasklist schema -> 
-    tasks
-            an array of tasks intialized empty.
-    name 
-            list name, type String, and it is required
-    description
-            type string, default value is empty string.
-    active
-            boolean
+tasklist schema:
+-    tasks  an array of tasks intialized empty.
+-    name -> list name, type String, and it is required
+-    description -> type string, default value is empty string.
+-    active -> boolean
 
 
 3 api endpoints

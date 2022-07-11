@@ -91,7 +91,7 @@ tasklist schema ->
         
     
     can combine both search and pagination:
-            eg url: http://localhost:5000/api/tasklist/62cb005b89036302b03cf081?search=list&page=2&limit=3
+            eg url : http://localhost:5000/api/tasklist/62cb005b89036302b03cf081?search=list&page=2&limit=3
             
     
         

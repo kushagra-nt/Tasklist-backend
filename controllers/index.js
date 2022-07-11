@@ -28,7 +28,7 @@ export const createTask = async (req, res) => {
     /*
       below function cheks both the validation and return true if passed and false otherwise
       and if its false it also response to client with res function with appropriate
-      message
+      message so we just have to return.
     */
     if (!validate(date, body.period, body.periodType, res)) {
       return;
@@ -48,7 +48,7 @@ export const createTask = async (req, res) => {
 
     await taskList.save();
 
-    res.status(200).json(taskList);
+    res.status(200).json(body);
     return;
   } catch (e) {
     console.log(e);
@@ -88,7 +88,8 @@ export const taskList = async (req, res) => {
     /*
       pagination
       slicing the tasks for the given page with given limit
-      and also providing client the number of previous and next pages if there are any.
+      and also providing client the number of previous and 
+      next pages if there are any.
     */
     if (query.page != undefined && query.limit != undefined) {
       const page = parseInt(query.page);

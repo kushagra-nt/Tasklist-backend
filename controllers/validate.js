@@ -1,19 +1,18 @@
 export default function validate(dueDate, period, periodType, res) {
-  
   /* this function return true if both validations are true and false otherwise
      
-    1) for checking period type first it converts period to given period type and check
-      if this converted period matches the period provided by client.
+    1) is period in period type format.
 
     2) for checking if given dueDate is after period if checks it with help of <= operator
       of javascript Date. notice the dueDate provided to the function is already in Date format
-      and we convert period in Date format before cheking.
+      and we are converting period in Date format before cheking.
   */
 
   if (periodType === "monthly") {
-    // period type validation
-    if (period !== new Date(period).toLocaleDateString("en-US", { month: "short", year: "numeric" })) {
-      res.status(403).json({ message: "period type is monthly but period is not in monthly format" });
+    // period type validation, must be in [mmm yyyy] format where mmm are characters
+    // eg: Nov 2022
+    if (!(/^[a-zA-Z]{3}\s[0-9]{4}/.test(period) && period.length === 8)) {
+      res.status(403).json({ message: "Invalid period format" });
       return false;
     }
 
@@ -25,9 +24,9 @@ export default function validate(dueDate, period, periodType, res) {
   }
 
   if (periodType === "yearly") {
-    // period type validation
-    if (period !== new Date(period).toLocaleDateString("en-US", { year: "numeric" })) {
-      res.status(403).json({ message: "period type is yearly but period is not in yearly format" });
+    // period type validation, must be in YYYY
+    if (/^[0-9]{4}/.test(period) && period.length === 4) {
+      res.status(403).json({ message: "Invalid period format" });
       return false;
     }
 
@@ -39,24 +38,20 @@ export default function validate(dueDate, period, periodType, res) {
   }
 
   if (periodType === "quaterly") {
-    //first we split period in quater format (eg: 2-2022) to get quarter and year
-    let [quarter, year] = period.split("-");
-    year = parseInt(year);
-    quarter = parseInt(quarter);
-
-    // period type validation
-    if ((quarter < 1) | (quarter > 4) | (year < 0)) {
-      res.status(403).json({ message: "invalid period" });
+    // checking period must be in q-yyyy , where q is quarter and q must be in 1-4
+    if (!(/^[1-4]{1}-[0-9]{4}/.test(period) && period.length === 6)) {
+      res.status(403).json({ message: "invalid period format" });
       return false;
     }
+
+    const [quarter, year] = period.split("-");
 
     //dueDate > period validation (notice +1 in month, because Date.getMonth() provide month with 0 index)
     if (!(dueDate.getFullYear() > year || (dueDate.getFullYear() === year && dueDate.getMonth() + 1 > quarter * 3))) {
       res.status(403).json({ message: "due date must be after end of period." });
       return false;
     }
-  }
-   else {
+  } else {
     // if period type is none of above.
     res.status(403).json({ message: "invalid period type" });
     return false;

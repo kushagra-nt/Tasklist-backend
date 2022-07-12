@@ -11,7 +11,7 @@ export default function validate(dueDate, period, periodType, res) {
   if (periodType === "monthly") {
     // period type validation, must be in [mmm yyyy] format where mmm are characters
     // eg: Nov 2022
-    if (!(/^[a-zA-Z]{3}\s[0-9]{4}/.test(period) && period.length === 8)) {
+    if (!/^[a-zA-Z]{3}\s[0-9]{4}$/.test(period)) {
       res.status(403).json({ message: "Invalid period format" });
       return false;
     }
@@ -23,7 +23,7 @@ export default function validate(dueDate, period, periodType, res) {
     }
   } else if (periodType === "yearly") {
     // period type validation, must be in YYYY
-    if (!(/^[0-9]{4}/.test(period) && period.length === 4)) {
+    if (!/^[0-9]{4}$/.test(period)) {
       res.status(403).json({ message: "Invalid period format" });
       return false;
     }
@@ -35,7 +35,7 @@ export default function validate(dueDate, period, periodType, res) {
     }
   } else if (periodType === "quaterly") {
     // checking period must be in q-yyyy , where q is quarter and q must be in 1-4
-    if (!(/^[1-4]{1}-[0-9]{4}/.test(period) && period.length === 6)) {
+    if (!/^[1-4]{1}-[0-9]{4}$/.test(period)) {
       res.status(403).json({ message: "invalid period format" });
       return false;
     }

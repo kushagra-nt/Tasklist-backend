@@ -1,5 +1,4 @@
 import taskLists from "../models/taskLists.js";
-import validate from "./validate.js";
 
 export const createList = async (req, res) => {
   try {
@@ -14,33 +13,18 @@ export const createList = async (req, res) => {
 
 export const createTask = async (req, res) => {
   try {
-    const body = req.body;
-
-    /* 
-      converting indian format to ISO format
-      first we get day month year from it
-      and convert it to ISO format using javascript Date.
-    */
-    const [day, month, year] = body.dueDate.split("-");
-    const date = new Date(year + "-" + month + "-" + day);
-    body.dueDate = date.toISOString();
-
-    /*
-      below function cheks both the validation and return true if passed and false otherwise
-      and if its false it also response to client with res function with appropriate
-      message so we just have to return.
-    */
-    if (!validate(date, body.period, body.periodType, res)) {
-      return;
+    if (!req.isValid) {
+      return res.status(400).json({ message: req.message });
     }
 
-    // if both validation passed then we find the list to insert the task
+    const body = req.body;
+
+    // finding the list to insert the task
     const taskList = await taskLists.findOne({ _id: body.taskListId });
 
     //if no list found
     if (!taskList) {
-      res.status(404).json({ message: "no list with that tasklist id" });
-      return;
+      return res.status(404).json({ message: "no list with that tasklist id" });
     }
 
     // push the task if list found
@@ -118,5 +102,20 @@ export const taskList = async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json(e);
+  }
+};
+
+export const getAllTasklists = async (req, res) => {
+  try {
+    let result = await taskLists.find();
+
+    //returning only name,decription and id not the tasks of all lists
+    result = result.map((tasklist) => {
+      return { name: taskList.name, description: tasklist.description, id: taskList._id };
+    });
+
+    res.status(200).json(result);
+  } catch (e) {
+    res.status(500).json({ message: "something went wrong" });
   }
 };

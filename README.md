@@ -92,5 +92,6 @@ tasklist schema:
     
         
 4) http://localhost:5000/api/getalltasklists
-
-    return an array of all the tasklists present in database, and for each tasklists return only thier name,description and id.
+    
+    method -> GET
+    return an array of all the tasklists present in database, and for each tasklists return only their name,description and id.

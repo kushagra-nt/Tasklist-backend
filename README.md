@@ -8,7 +8,7 @@ tasklist schema:
 -    active -> boolean
 
 
-3 api endpoints
+4 api endpoints
 
 1) http://localhost:5000/api/createtasklist
     
@@ -91,3 +91,6 @@ tasklist schema:
             
     
         
+4) http://localhost:5000/api/getalltasklists
+
+    return an array of all the tasklists present in database, and for each tasklists return only thier name,description and id.

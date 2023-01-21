@@ -1,4 +1,4 @@
-# TaxAdda-assignment
+# A simple tasklists backend server
 
 
 tasklist schema:
